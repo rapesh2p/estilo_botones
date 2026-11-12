@@ -1,0 +1,1837 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Button Craft — All Button Styles UI Kit</title>
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & ATMOSPHERIC THEME
+       ========================================================================== */
+    :root {
+      --bg: #f4f6fb;
+      --dot-color: rgba(15, 23, 42, 0.08);
+      --surface: rgba(255, 255, 255, 0.86);
+      --surface-solid: #ffffff;
+      --surface-alt: #f1f5f9;
+      --surface-elevated: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: rgba(15, 23, 42, 0.09);
+      --border-strong: rgba(15, 23, 42, 0.16);
+      --shadow-card:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 12px 32px -12px rgba(15, 23, 42, 0.08);
+      --glass-bar: rgba(255, 255, 255, 0.78);
+
+      /* Brand Palette */
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --secondary: #64748b;
+      --secondary-hover: #475569;
+      --success: #059669;
+      --success-hover: #047857;
+      --warning: #f59e0b;
+      --warning-hover: #d97706;
+      --danger: #e11d48;
+      --danger-hover: #be123c;
+      --info: #0284c7;
+      --info-hover: #0369a1;
+
+      --mono-bg: #0f172a;
+      --mono-text: #ffffff;
+      --mono-hover: #1e293b;
+
+      --focus-ring: 0 0 0 3px rgba(79, 70, 229, 0.35);
+    }
+
+    [data-theme="dark"] {
+      --bg: #070b14;
+      --dot-color: rgba(148, 163, 184, 0.12);
+      --surface: rgba(15, 23, 42, 0.72);
+      --surface-solid: #0f172a;
+      --surface-alt: #1e293b;
+      --surface-elevated: #172033;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      --shadow-card:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 16px 40px -16px rgba(0, 0, 0, 0.65);
+      --glass-bar: rgba(11, 17, 32, 0.8);
+
+      --mono-bg: #f8fafc;
+      --mono-text: #0f172a;
+      --mono-hover: #e2e8f0;
+
+      --focus-ring: 0 0 0 3px rgba(129, 140, 248, 0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+      background-size: 22px 22px;
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Ambient Background Orbs */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .ambient-glow::before,
+    .ambient-glow::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: 0.22;
+    }
+    .ambient-glow::before {
+      top: -180px;
+      left: -100px;
+      background: #6366f1;
+    }
+    .ambient-glow::after {
+      top: -120px;
+      right: -120px;
+      background: #ec4899;
+    }
+    [data-theme="dark"] .ambient-glow::before,
+    [data-theme="dark"] .ambient-glow::after {
+      opacity: 0.16;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 6rem;
+    }
+
+    /* ==========================================================================
+       2. HERO HEADER & STICKY GLASS TOOLBAR
+       ========================================================================== */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+      margin-bottom: 0.75rem;
+    }
+    [data-theme="dark"] .hero-badge {
+      background: rgba(129, 140, 248, 0.14);
+      color: #a5b4fc;
+      border-color: rgba(129, 140, 248, 0.25);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #4f46e5 0%, #ec4899 55%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      margin: 0.6rem 0 0;
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 580px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      backdrop-filter: blur(10px);
+    }
+    .stat-pill strong { color: var(--text); }
+
+    /* Sticky Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0.85rem;
+      z-index: 40;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 1.75rem;
+      background: var(--glass-bar);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .filter-pill {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.825rem;
+      font-weight: 600;
+      padding: 0.42rem 0.85rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+      color: var(--text);
+      background: var(--surface-alt);
+    }
+    .filter-pill.active {
+      background: var(--mono-bg);
+      color: var(--mono-text);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1 1 190px;
+      max-width: 260px;
+    }
+    .search-box svg {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.48rem 2rem 0.48rem 2.2rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.84rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: var(--focus-ring);
+      background: var(--surface-solid);
+    }
+    .search-clear {
+      position: absolute;
+      right: 0.45rem;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0.15rem 0.35rem;
+      border-radius: 6px;
+      display: none;
+    }
+    .search-clear.visible { display: block; }
+    .search-clear:hover { color: var(--text); }
+
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.48rem 0.85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.825rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .theme-btn:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-elevated);
+    }
+    .theme-btn svg { width: 15px; height: 15px; }
+
+    /* ==========================================================================
+       3. BENTO GRID & CARD ARCHITECTURE
+       ========================================================================== */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.25rem;
+    }
+
+    .card {
+      grid-column: span 12;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.3s ease;
+    }
+    .card:hover {
+      border-color: var(--border-strong);
+    }
+    .card.is-hidden { display: none; }
+
+    @media (min-width: 920px) {
+      .span-7 { grid-column: span 7; }
+      .span-6 { grid-column: span 6; }
+      .span-5 { grid-column: span 5; }
+      .span-12 { grid-column: span 12; }
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-eyebrow {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+    [data-theme="dark"] .card-eyebrow { color: #818cf8; }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+
+    .count-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      padding: 0.22rem 0.6rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .card-desc {
+      margin: 0 0 1.35rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .btn-row + .btn-row {
+      margin-top: 1.15rem;
+      padding-top: 1.15rem;
+      border-top: 1px dashed var(--border);
+    }
+
+    .two-stage {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 780px) {
+      .two-stage { grid-template-columns: 1.2fr 1fr; }
+    }
+
+    .empty-state {
+      display: none;
+      grid-column: span 12;
+      text-align: center;
+      padding: 3.5rem 1.5rem;
+      background: var(--surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: 20px;
+    }
+    .empty-state.visible { display: block; }
+
+    /* ==========================================================================
+       4. BASE BUTTON SYSTEM & ACCESSIBILITY
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.2;
+      padding: 0.62rem 1.18rem;
+      border-radius: 10px;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      position: relative;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+    }
+
+    .btn svg {
+      width: 1.05em;
+      height: 1.05em;
+      flex-shrink: 0;
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(1px) scale(0.985);
+    }
+
+    .is-search-hidden { display: none !important; }
+
+    /* ==========================================================================
+       5. CORE, SEMANTIC & MODERN MONOCHROME
+       ========================================================================== */
+    .btn-mono {
+      background: var(--mono-bg);
+      color: var(--mono-text);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    }
+    .btn-mono:hover {
+      background: var(--mono-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary   { background: var(--primary); color: #fff; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.28); }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+    .btn-secondary { background: var(--secondary); color: #fff; }
+    .btn-secondary:hover { background: var(--secondary-hover); }
+
+    .btn-success   { background: var(--success); color: #fff; box-shadow: 0 2px 8px rgba(5, 150, 105, 0.24); }
+    .btn-success:hover { background: var(--success-hover); transform: translateY(-1px); }
+
+    .btn-warning   { background: var(--warning); color: #0f172a; }
+    .btn-warning:hover { background: var(--warning-hover); }
+
+    .btn-danger    { background: var(--danger); color: #fff; box-shadow: 0 2px 8px rgba(225, 29, 72, 0.24); }
+    .btn-danger:hover { background: var(--danger-hover); transform: translateY(-1px); }
+
+    .btn-info      { background: var(--info); color: #fff; }
+    .btn-info:hover { background: var(--info-hover); }
+
+    .btn-light {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+    .btn-light:hover { background: #f1f5f9; }
+
+    .btn-soft-primary { background: rgba(79, 70, 229, 0.11); color: var(--primary); }
+    .btn-soft-primary:hover { background: rgba(79, 70, 229, 0.2); }
+    [data-theme="dark"] .btn-soft-primary { background: rgba(129, 140, 248, 0.16); color: #a5b4fc; }
+
+    .btn-soft-success { background: rgba(5, 150, 105, 0.11); color: var(--success); }
+    .btn-soft-success:hover { background: rgba(5, 150, 105, 0.2); }
+    [data-theme="dark"] .btn-soft-success { background: rgba(52, 211, 153, 0.15); color: #6ee7b7; }
+
+    .btn-soft-danger { background: rgba(225, 29, 72, 0.11); color: var(--danger); }
+    .btn-soft-danger:hover { background: rgba(225, 29, 72, 0.2); }
+    [data-theme="dark"] .btn-soft-danger { background: rgba(251, 113, 133, 0.15); color: #fda4af; }
+
+    /* ==========================================================================
+       6. OUTLINE, GHOST & KINETIC FILLS
+       ========================================================================== */
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    [data-theme="dark"] .btn-outline { color: #818cf8; border-color: #818cf8; }
+    [data-theme="dark"] .btn-outline:hover { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+
+    .btn-wipe {
+      background: transparent;
+      color: var(--success);
+      border-color: var(--success);
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn-wipe::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--success);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+    }
+    .btn-wipe:hover { color: #fff; }
+    .btn-wipe:hover::before { transform: scaleX(1); }
+
+    .btn-curtain {
+      background: transparent;
+      color: var(--danger);
+      border-color: var(--danger);
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn-curtain::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--danger);
+      transform: scaleY(0);
+      transition: transform 0.25s ease;
+      z-index: -1;
+    }
+    .btn-curtain:hover { color: #fff; }
+    .btn-curtain:hover::before { transform: scaleY(1); }
+
+    .btn-dashed {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px dashed var(--secondary);
+    }
+    .btn-dashed:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(79, 70, 229, 0.05);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+    }
+    .btn-ghost:hover { background: var(--surface-alt); }
+
+    .btn-link {
+      background: transparent;
+      color: var(--primary);
+      padding-inline: 0.35rem;
+      border-radius: 6px;
+    }
+    [data-theme="dark"] .btn-link { color: #818cf8; }
+    .btn-link::after {
+      content: "";
+      position: absolute;
+      left: 0.35rem;
+      right: 0.35rem;
+      bottom: 0.32rem;
+      height: 2px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.25s ease;
+    }
+    .btn-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* ==========================================================================
+       7. SIZES, SHAPES, GROUPS & SPLIT CONTROLS
+       ========================================================================== */
+    .btn-xs { font-size: 0.74rem; padding: 0.34rem 0.65rem; border-radius: 7px; }
+    .btn-sm { font-size: 0.82rem; padding: 0.46rem 0.9rem; border-radius: 8px; }
+    .btn-lg { font-size: 1.02rem; padding: 0.78rem 1.5rem; border-radius: 12px; }
+    .btn-xl { font-size: 1.15rem; padding: 0.95rem 1.9rem; border-radius: 14px; }
+
+    .btn-pill { border-radius: 9999px; }
+    .btn-sharp { border-radius: 2px; }
+
+    .btn-icon { width: 2.5rem; height: 2.5rem; padding: 0; }
+    .btn-icon-circle { border-radius: 50%; }
+
+    .btn-fab {
+      width: 3.15rem;
+      height: 3.15rem;
+      padding: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
+      box-shadow: 0 10px 24px -4px rgba(79, 70, 229, 0.55);
+    }
+    .btn-fab:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 14px 28px -4px rgba(79, 70, 229, 0.65);
+    }
+
+    .btn-block { width: 100%; }
+
+    /* Elevated Segmented Track */
+    .btn-group {
+      display: inline-flex;
+      padding: 0.25rem;
+      gap: 0.2rem;
+      border-radius: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+    .btn-group .btn {
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.84rem;
+    }
+    .btn-group .btn:hover { color: var(--text); }
+    .btn-group .btn.is-active {
+      background: var(--surface-solid);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+    }
+
+    /* Split Dropdown */
+    .split-wrap { position: relative; display: inline-flex; }
+    .split-main {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .split-toggle {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      padding-inline: 0.62rem;
+    }
+    .split-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 175px;
+      background: var(--surface-solid);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 0.35rem;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      display: none;
+      z-index: 50;
+    }
+    .split-menu.open { display: block; }
+    .split-menu button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 0.52rem 0.75rem;
+      border-radius: 8px;
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .split-menu button:hover {
+      background: var(--surface-alt);
+      color: var(--primary);
+    }
+
+    /* ==========================================================================
+       8. 3D, KEYCAP, BRUTALIST, RETRO & NEUMORPHISM
+       ========================================================================== */
+    .btn-3d {
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 5px 0 #1d4ed8;
+      margin-bottom: 5px;
+    }
+    .btn-3d:hover { background: #2563eb; }
+    .btn-3d:active {
+      transform: translateY(4px) !important;
+      box-shadow: 0 1px 0 #1d4ed8;
+    }
+
+    .btn-3d-green { background: #22c55e; box-shadow: 0 5px 0 #15803d; }
+    .btn-3d-green:hover { background: #16a34a; }
+    .btn-3d-green:active { box-shadow: 0 1px 0 #15803d; }
+
+    /* Mechanical Keycap */
+    .btn-keycap {
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      color: #1e293b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.84rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      box-shadow:
+        0 4px 0 #94a3b8,
+        0 6px 12px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 #ffffff;
+      margin-bottom: 4px;
+    }
+    .btn-keycap:active {
+      transform: translateY(3px) !important;
+      box-shadow: 0 1px 0 #94a3b8, inset 0 1px 0 #ffffff;
+    }
+    [data-theme="dark"] .btn-keycap {
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      color: #f8fafc;
+      border-color: #475569;
+      box-shadow: 0 4px 0 #0f172a, 0 6px 12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    [data-theme="dark"] .btn-keycap:active {
+      box-shadow: 0 1px 0 #0f172a;
+    }
+
+    /* Neo-Brutalist */
+    .btn-brutal {
+      background: #fde047;
+      color: #000;
+      border: 2.5px solid #000;
+      border-radius: 6px;
+      box-shadow: 4px 4px 0 #000;
+      font-weight: 800;
+    }
+    .btn-brutal:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
+    }
+    .btn-brutal:active {
+      transform: translate(3px, 3px) !important;
+      box-shadow: 1px 1px 0 #000;
+    }
+    .btn-brutal-pink { background: #f472b6; }
+
+    /* Retro Win95 */
+    .btn-retro {
+      background: #c0c0c0;
+      color: #000;
+      font-family: "MS Sans Serif", Tahoma, sans-serif;
+      border-radius: 0;
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-right: 2px solid #404040;
+      border-bottom: 2px solid #404040;
+      box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+    }
+    .btn-retro:active {
+      border-top: 2px solid #404040;
+      border-left: 2px solid #404040;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: translate(1px, 1px) !important;
+    }
+
+    /* Glossy Aqua */
+    .btn-glossy {
+      background: linear-gradient(180deg, #7dd3fc 0%, #0284c7 49%, #0369a1 51%, #0ea5e9 100%);
+      color: #fff;
+      border: 1px solid #075985;
+      border-radius: 9999px;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(2, 132, 199, 0.35);
+    }
+    .btn-glossy:hover { filter: brightness(1.06); }
+
+    /* Neumorphism Stage */
+    .neu-stage {
+      background: #e2e8f0;
+      padding: 1.35rem;
+      border-radius: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.15rem;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    [data-theme="dark"] .neu-stage {
+      background: #1b2230;
+      border-color: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn-neu {
+      background: #e2e8f0;
+      color: #334155;
+      border: none;
+      border-radius: 14px;
+      box-shadow: 6px 6px 12px #bec7d2, -6px -6px 12px #ffffff;
+    }
+    .btn-neu:hover { box-shadow: 4px 4px 8px #bec7d2, -4px -4px 8px #ffffff; }
+    .btn-neu:active,
+    .btn-neu.is-pressed {
+      box-shadow: inset 4px 4px 8px #bec7d2, inset -4px -4px 8px #ffffff;
+      color: var(--primary);
+    }
+    [data-theme="dark"] .btn-neu {
+      background: #1b2230;
+      color: #cbd5e1;
+      box-shadow: 6px 6px 12px #10151e, -6px -6px 12px #262f42;
+    }
+    [data-theme="dark"] .btn-neu:active,
+    [data-theme="dark"] .btn-neu.is-pressed {
+      box-shadow: inset 4px 4px 8px #10151e, inset -4px -4px 8px #262f42;
+      color: #818cf8;
+    }
+
+    /* ==========================================================================
+       9. GRADIENTS, CONIC GLOW, NEON & GLASSMORPHISM
+       ========================================================================== */
+    .btn-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 6px 18px -4px rgba(236, 72, 153, 0.5);
+    }
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -4px rgba(236, 72, 153, 0.6);
+    }
+
+    .btn-gradient-anim {
+      background: linear-gradient(270deg, #06b6d4, #6366f1, #ec4899, #06b6d4);
+      background-size: 300% 300%;
+      color: #fff;
+      border: none;
+      animation: gradientFlow 5s ease infinite;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .btn-gradient-border {
+      background:
+        linear-gradient(var(--surface-solid), var(--surface-solid)) padding-box,
+        linear-gradient(135deg, #3b82f6, #ec4899, #f59e0b) border-box;
+      border: 2px solid transparent;
+      color: var(--text);
+    }
+    .btn-gradient-border:hover {
+      background: linear-gradient(135deg, #3b82f6, #ec4899, #f59e0b) border-box;
+      color: #fff;
+    }
+
+    .btn-shimmer {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+    .btn-shimmer::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -80%;
+      width: 55%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      transform: rotate(25deg);
+      transition: left 0.55s ease;
+    }
+    .btn-shimmer:hover::after { left: 135%; }
+
+    /* Conic Rotating Beam Border (Linear/Vercel aesthetic) */
+    .btn-conic {
+      background: #0b1120;
+      color: #f8fafc;
+      border: none;
+      overflow: hidden;
+      z-index: 1;
+      padding: 0.7rem 1.35rem;
+      border-radius: 12px;
+    }
+    .btn-conic::before {
+      content: "";
+      position: absolute;
+      width: 260%;
+      aspect-ratio: 1;
+      left: 50%;
+      top: 50%;
+      background: conic-gradient(from 0deg, transparent 0 265deg, #38bdf8 310deg, #c084fc 350deg, transparent 360deg);
+      transform: translate(-50%, -50%) rotate(0deg);
+      animation: conicSpin 3s linear infinite;
+      z-index: -2;
+    }
+    .btn-conic::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      background: #0b1120;
+      border-radius: 10px;
+      z-index: -1;
+    }
+    .btn-conic:hover::after { background: #131c31; }
+    @keyframes conicSpin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Dark Obsidian Stage */
+    .dark-stage {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at top right, #172554 0%, #070b14 65%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.4rem;
+      border-radius: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .btn-neon-cyan {
+      background: transparent;
+      color: #22d3ee;
+      border: 1.5px solid #22d3ee;
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.3), inset 0 0 10px rgba(34, 211, 238, 0.15);
+      text-shadow: 0 0 8px rgba(34, 211, 238, 0.65);
+    }
+    .btn-neon-cyan:hover {
+      background: #22d3ee;
+      color: #070b14;
+      text-shadow: none;
+      box-shadow: 0 0 26px rgba(34, 211, 238, 0.85);
+    }
+
+    .btn-neon-pink {
+      background: transparent;
+      color: #f472b6;
+      border: 1.5px solid #f472b6;
+      box-shadow: 0 0 12px rgba(244, 114, 182, 0.3), inset 0 0 10px rgba(244, 114, 182, 0.15);
+    }
+    .btn-neon-pink:hover {
+      background: #f472b6;
+      color: #070b14;
+      box-shadow: 0 0 26px rgba(244, 114, 182, 0.85);
+    }
+
+    .btn-cyber {
+      background: #facc15;
+      color: #070b14;
+      border: none;
+      border-radius: 0;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.72rem 1.45rem;
+      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    }
+    .btn-cyber:hover { background: #22d3ee; transform: translateY(-2px); }
+
+    /* Aurora Glass Stage */
+    .glass-stage {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      padding: 1.4rem;
+      background: linear-gradient(135deg, #3730a3 0%, #be185d 52%, #f97316 100%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+    .glass-stage::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #38bdf8;
+      top: -40px;
+      left: 12%;
+      filter: blur(28px);
+      opacity: 0.75;
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 20px rgba(0, 0, 0, 0.16);
+    }
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.28);
+      border-color: rgba(255, 255, 255, 0.65);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       10. INTERACTIVE & MICRO-ANIMATED BUTTONS
+       ========================================================================== */
+    /* Mouse-Tracking Spotlight */
+    .btn-spotlight {
+      background: #0f172a;
+      color: #fff;
+      border: 1px solid #334155;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn-spotlight::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        95px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(99, 102, 241, 0.65),
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: -1;
+    }
+    .btn-spotlight:hover::before { opacity: 1; }
+
+    /* Material Ripple */
+    .btn-ripple { background: #0284c7; color: #fff; overflow: hidden; }
+    .ripple-wave {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.52);
+      transform: scale(0);
+      animation: rippleAnim 0.6s linear;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+    /* Slide Arrow */
+    .btn-slide-arrow { background: var(--primary); color: #fff; overflow: hidden; }
+    .btn-slide-arrow .arrow {
+      display: inline-block;
+      width: 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.25s ease;
+    }
+    .btn-slide-arrow:hover .arrow {
+      width: 1.1em;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Text Roll */
+    .btn-roll { background: var(--mono-bg); color: var(--mono-text); overflow: hidden; }
+    .btn-roll .roll-default,
+    .btn-roll .roll-hover {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-roll .roll-hover {
+      position: absolute;
+      inset: 0;
+      transform: translateY(100%);
+      color: #38bdf8;
+    }
+    [data-theme="dark"] .btn-roll .roll-hover { color: var(--primary); }
+    .btn-roll:hover .roll-default { transform: translateY(-150%); }
+    .btn-roll:hover .roll-hover { transform: translateY(0); }
+
+    /* Spring Bounce */
+    .btn-bouncy {
+      background: #8b5cf6;
+      color: #fff;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+    }
+    .btn-bouncy:hover { transform: scale(1.07); background: #7c3aed; }
+
+    /* Spinner */
+    .spinner {
+      width: 1em;
+      height: 1em;
+      border: 2.2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Heart Toggle */
+    .btn-like {
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-like.liked {
+      border-color: #fda4af;
+      background: rgba(244, 63, 94, 0.12);
+      color: #e11d48;
+    }
+    .btn-like.liked svg {
+      fill: #e11d48;
+      animation: heartPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+
+    /* Notification Badge */
+    .badge-count {
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      min-width: 1.35rem;
+      height: 1.35rem;
+      padding: 0 0.3rem;
+      border-radius: 9999px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--surface-solid);
+    }
+
+    .btn:disabled { opacity: 0.48; cursor: not-allowed; pointer-events: none; }
+
+    /* ==========================================================================
+       11. FLOATING INSPECTOR BAR (CLICK-TO-COPY TOAST)
+       ========================================================================== */
+    .inspector-bar {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translate(-50%, 140%);
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      max-width: calc(100vw - 2rem);
+      padding: 0.65rem 0.9rem;
+      border-radius: 14px;
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
+      transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .inspector-bar.visible { transform: translate(-50%, 0); }
+
+    .inspector-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+    }
+    .inspector-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+    .inspector-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #93c5fd;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+    }
+
+    .inspector-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .copy-chip {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font: inherit;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .copy-chip:hover { background: rgba(255, 255, 255, 0.18); }
+    .copy-chip.copied { background: #059669; border-color: #059669; }
+    .inspector-close {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0.2rem 0.35rem;
+    }
+    .inspector-close:hover { color: #fff; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <div class="container">
+    <!-- Hero -->
+    <header class="hero">
+      <div>
+        <div class="hero-badge">UI Component Kit &bull; Pure CSS</div>
+        <h1>All <span class="gradient-text">Button Styles</span> Showcase</h1>
+        <p class="hero-sub">
+          An interactive collection of modern, tactile, animated, and accessible buttons. Click any button to test it and grab its HTML or CSS.
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill"><strong>40+</strong> Styles</div>
+        <div class="stat-pill"><strong>0</strong> Dependencies</div>
+        <div class="stat-pill"><strong>WCAG</strong> Focus</div>
+      </div>
+    </header>
+
+    <!-- Sticky Glass Filter Bar -->
+    <nav class="toolbar" aria-label="Filter button styles">
+      <div class="filter-pills" id="filterPills">
+        <button type="button" class="filter-pill active" data-filter="all">All</button>
+        <button type="button" class="filter-pill" data-filter="core">Core &amp; Outline</button>
+        <button type="button" class="filter-pill" data-filter="layout">Sizes &amp; Groups</button>
+        <button type="button" class="filter-pill" data-filter="tactile">3D &amp; Tactile</button>
+        <button type="button" class="filter-pill" data-filter="effects">Neon &amp; Glass</button>
+        <button type="button" class="filter-pill" data-filter="motion">Animated</button>
+      </div>
+
+      <div class="toolbar-actions">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="search" id="searchInput" placeholder="Search styles..." aria-label="Search button styles" />
+          <button type="button" class="search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+        </div>
+
+        <button type="button" id="themeToggle" class="theme-btn" aria-pressed="false">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span id="themeLabel">Dark</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Bento Grid -->
+    <main class="bento-grid" id="showcaseGrid">
+
+      <!-- 1. Solid & Semantic -->
+      <section class="card span-7" data-category="core">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">01 / Foundation</span>
+            <h2 class="card-title">Solid, Semantic &amp; Soft Tinted</h2>
+          </div>
+          <span class="count-pill">11 styles</span>
+        </div>
+        <p class="card-desc">High-contrast primary actions, monochrome neutrals, and gentle contextual tints.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-mono" data-name="Monochrome">Monochrome</button>
+          <button type="button" class="btn btn-primary" data-name="Primary Solid">Primary</button>
+          <button type="button" class="btn btn-secondary" data-name="Secondary">Secondary</button>
+          <button type="button" class="btn btn-success" data-name="Success">Success</button>
+          <button type="button" class="btn btn-warning" data-name="Warning">Warning</button>
+          <button type="button" class="btn btn-danger" data-name="Danger">Danger</button>
+          <button type="button" class="btn btn-info" data-name="Info">Info</button>
+          <button type="button" class="btn btn-light" data-name="Light Crisp">Light</button>
+          <button type="button" class="btn btn-soft-primary" data-name="Soft Primary">Soft Primary</button>
+          <button type="button" class="btn btn-soft-success" data-name="Soft Success">Soft Success</button>
+          <button type="button" class="btn btn-soft-danger" data-name="Soft Danger">Soft Danger</button>
+        </div>
+      </section>
+
+      <!-- 2. Outline, Ghost & Kinetic Fills -->
+      <section class="card span-5" data-category="core">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">02 / Minimal</span>
+            <h2 class="card-title">Outline, Ghost &amp; Kinetic Fills</h2>
+          </div>
+          <span class="count-pill">6 styles</span>
+        </div>
+        <p class="card-desc">Lightweight actions with directional hover sweeps and animated underlines.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-outline" data-name="Solid Outline">Solid Outline</button>
+          <button type="button" class="btn btn-wipe" data-name="Wipe Fill">Wipe Fill</button>
+          <button type="button" class="btn btn-curtain" data-name="Curtain Fill">Curtain Fill</button>
+          <button type="button" class="btn btn-dashed" data-name="Dashed Border">Dashed</button>
+          <button type="button" class="btn btn-ghost" data-name="Ghost">Ghost</button>
+          <button type="button" class="btn btn-link" data-name="Animated Link">Animated Link</button>
+        </div>
+      </section>
+
+      <!-- 3. Sizes, Shapes & Composites -->
+      <section class="card span-12" data-category="layout">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">03 / Structure &amp; Composites</span>
+            <h2 class="card-title">Sizes, Shapes, Icons &amp; Interactive Controls</h2>
+          </div>
+          <span class="count-pill">12 variants</span>
+        </div>
+        <p class="card-desc">Proportional sizing scales, circular icon triggers, elevated segmented controls, and split dropdowns.</p>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary btn-xs" data-name="Extra Small">XS</button>
+          <button type="button" class="btn btn-primary btn-sm" data-name="Small">Small</button>
+          <button type="button" class="btn btn-primary" data-name="Default Size">Default</button>
+          <button type="button" class="btn btn-primary btn-lg" data-name="Large">Large</button>
+          <button type="button" class="btn btn-primary btn-xl" data-name="Extra Large">Extra Large</button>
+          <button type="button" class="btn btn-mono btn-pill" data-name="Pill Shape">Pill Shape</button>
+          <button type="button" class="btn btn-mono btn-sharp" data-name="Sharp Corners">Sharp Corners</button>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-success" data-name="Icon Download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+
+          <button type="button" class="btn btn-outline btn-icon" aria-label="Settings" data-name="Icon Square Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+
+          <button type="button" class="btn btn-soft-danger btn-icon btn-icon-circle" aria-label="Delete" data-name="Icon Circle Delete">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+
+          <button type="button" class="btn btn-fab" aria-label="Floating Action Add" data-name="Floating Action Button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+
+          <div class="btn-group" role="group" aria-label="Segmented view switch" data-search-unit>
+            <button type="button" class="btn is-active" data-name="Segmented Tab">Day</button>
+            <button type="button" class="btn" data-name="Segmented Tab">Week</button>
+            <button type="button" class="btn" data-name="Segmented Tab">Month</button>
+          </div>
+
+          <div class="split-wrap" data-search-unit>
+            <button type="button" class="btn btn-primary split-main" data-name="Split Button">Publish</button>
+            <button type="button" class="btn btn-primary split-toggle" id="splitBtn" aria-expanded="false" aria-label="More publish options" data-name="Split Toggle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="split-menu" id="splitMenu" role="menu">
+              <button type="button" role="menuitem">Save as Draft</button>
+              <button type="button" role="menuitem">Schedule Post</button>
+              <button type="button" role="menuitem">Preview Changes</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary btn-block" data-name="Full Width Block">Full-Width Block Button</button>
+        </div>
+      </section>
+
+      <!-- 4. 3D, Keycap, Brutalist & Retro -->
+      <section class="card span-6" data-category="tactile">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">04 / Tactile Physics</span>
+            <h2 class="card-title">3D, Keycap, Brutalist &amp; Retro</h2>
+          </div>
+          <span class="count-pill">7 styles</span>
+        </div>
+        <p class="card-desc">Physical depth through layered shadows, bevels, and mechanical key travel.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-3d" data-name="3D Push Blue">3D Push Blue</button>
+          <button type="button" class="btn btn-3d btn-3d-green" data-name="3D Push Green">3D Push Green</button>
+          <button type="button" class="btn btn-keycap" data-name="Mechanical Keycap">⌘ Cmd + K</button>
+          <button type="button" class="btn btn-brutal" data-name="Neo-Brutalist">Neo-Brutalist</button>
+          <button type="button" class="btn btn-brutal btn-brutal-pink" data-name="Brutal Pink">Brutal Pink</button>
+          <button type="button" class="btn btn-retro" data-name="Retro Win95">Retro OS</button>
+          <button type="button" class="btn btn-glossy" data-name="Glossy Aqua 2.0">Glossy 2.0</button>
+        </div>
+      </section>
+
+      <!-- 5. Soft UI / Neumorphism -->
+      <section class="card span-6" data-category="tactile">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">05 / Soft UI</span>
+            <h2 class="card-title">Neumorphic Studio</h2>
+          </div>
+          <span class="count-pill">3 styles</span>
+        </div>
+        <p class="card-desc">Extruded soft shadows that respond natively to both Light and Dark surfaces.</p>
+        <div class="neu-stage">
+          <button type="button" class="btn btn-neu" data-name="Neumorphic Raised">Raised Soft UI</button>
+          <button type="button" class="btn btn-neu btn-pill" data-name="Neumorphic Pill">Soft Pill</button>
+          <button type="button" class="btn btn-neu" data-neu-toggle data-name="Neumorphic Toggle">Click to Inset</button>
+        </div>
+      </section>
+
+      <!-- 6. Gradients, Conic Glow, Neon & Glass -->
+      <section class="card span-12" data-category="effects">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">06 / Surface FX</span>
+            <h2 class="card-title">Gradients, Conic Beam, Neon &amp; Glassmorphism</h2>
+          </div>
+          <span class="count-pill">10 styles</span>
+        </div>
+        <p class="card-desc">Luminous gradients, rotating conic-beam borders, cyber clip-paths, and frosted glass.</p>
+
+        <div class="btn-row" style="margin-bottom: 1.15rem;">
+          <button type="button" class="btn btn-gradient" data-name="Sunset Gradient">Sunset Gradient</button>
+          <button type="button" class="btn btn-gradient-anim" data-name="Animated Gradient Flow">Animated Flow</button>
+          <button type="button" class="btn btn-gradient-border" data-name="Adaptive Gradient Border">Gradient Border</button>
+          <button type="button" class="btn btn-shimmer" data-name="Light Shimmer">Light Shimmer</button>
+          <button type="button" class="btn btn-conic" data-name="Conic Beam Border">Conic Beam</button>
+        </div>
+
+        <div class="two-stage">
+          <div class="dark-stage">
+            <button type="button" class="btn btn-neon-cyan" data-name="Neon Cyan">Neon Cyan</button>
+            <button type="button" class="btn btn-neon-pink" data-name="Neon Pink">Neon Pink</button>
+            <button type="button" class="btn btn-cyber" data-name="Cyberpunk Cut">Cyberpunk</button>
+          </div>
+          <div class="glass-stage">
+            <button type="button" class="btn btn-glass" data-name="Glassmorphic Frosted">Glass Frosted</button>
+            <button type="button" class="btn btn-glass btn-pill" data-name="Glass Pill">Frosted Pill</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Interactive & Micro-Animations -->
+      <section class="card span-7" data-category="motion">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">07 / Micro-Interactions</span>
+            <h2 class="card-title">Motion, Tracking &amp; Async Feedback</h2>
+          </div>
+          <span class="count-pill">8 styles</span>
+        </div>
+        <p class="card-desc">Hover and click to feel mouse-tracking spotlights, ripples, spring physics, and async states.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-spotlight" data-spotlight data-name="Mouse Spotlight">Mouse Spotlight</button>
+          <button type="button" class="btn btn-ripple" data-ripple data-name="Material Ripple">Material Ripple</button>
+          <button type="button" class="btn btn-slide-arrow" data-name="Slide Arrow">
+            <span>Next Step</span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </button>
+          <button type="button" class="btn btn-roll" data-name="Text Roll">
+            <span class="roll-default">Hover Roll</span>
+            <span class="roll-hover" aria-hidden="true">Let's Go!</span>
+          </button>
+          <button type="button" class="btn btn-bouncy" data-name="Spring Bounce">Spring Bounce</button>
+          <button type="button" class="btn btn-primary" id="asyncBtn" data-name="Async Save">Save Changes</button>
+          <button type="button" class="btn btn-like" id="likeBtn" aria-pressed="false" data-name="Heart Like Toggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span id="likeCount">24</span>
+          </button>
+          <button type="button" class="btn btn-light" data-name="Notification Badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Inbox
+            <span class="badge-count">9</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 8. States & Accessibility -->
+      <section class="card span-5" data-category="core">
+        <div class="card-head">
+          <div>
+            <span class="card-eyebrow">08 / States &amp; A11y</span>
+            <h2 class="card-title">Disabled, Loading &amp; Focus</h2>
+          </div>
+          <span class="count-pill">3 states</span>
+        </div>
+        <p class="card-desc">Accessible disabled cues, spinners, and keyboard-only <code>:focus-visible</code> rings (press <kbd>Tab</kbd>).</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" disabled>Disabled Solid</button>
+          <button type="button" class="btn btn-outline" disabled>Disabled Outline</button>
+          <button type="button" class="btn btn-secondary" disabled>
+            <span class="spinner" aria-hidden="true"></span>
+            Loading...
+          </button>
+        </div>
+      </section>
+
+      <!-- Empty Search State -->
+      <div class="empty-state" id="emptyState">
+        <p style="margin: 0 0 0.85rem; font-weight: 600;">No button styles matched your search.</p>
+        <button type="button" class="btn btn-outline btn-sm" id="resetFiltersBtn">Reset Filters</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Floating Live Inspector & Copy Bar -->
+  <aside class="inspector-bar" id="inspectorBar" aria-live="polite">
+    <div class="inspector-meta">
+      <span class="inspector-dot" aria-hidden="true"></span>
+      <strong id="inspectorName">Button</strong>
+      <code class="inspector-code" id="inspectorClass">.btn</code>
+    </div>
+    <div class="inspector-actions">
+      <button type="button" class="copy-chip" id="copyHtmlBtn">Copy HTML</button>
+      <button type="button" class="copy-chip" id="copyCssBtn">Copy CSS</button>
+      <button type="button" class="inspector-close" id="inspectorClose" aria-label="Close inspector">&times;</button>
+    </div>
+  </aside>
+
+  <script>
+    // =========================================================================
+    // 1. THEME TOGGLE (Light / Dark)
+    // =========================================================================
+    const themeToggle = document.getElementById("themeToggle");
+    const themeLabel = document.getElementById("themeLabel");
+    const themeIcon = document.getElementById("themeIcon");
+
+    const sunSvg = '<circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>';
+    const moonSvg = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+    themeToggle.addEventListener("click", () => {
+      const root = document.documentElement;
+      const toDark = root.getAttribute("data-theme") !== "dark";
+      root.setAttribute("data-theme", toDark ? "dark" : "light");
+      themeToggle.setAttribute("aria-pressed", String(toDark));
+      themeLabel.textContent = toDark ? "Light" : "Dark";
+      themeIcon.innerHTML = toDark ? sunSvg : moonSvg;
+    });
+
+    // =========================================================================
+    // 2. CATEGORY FILTERING & LIVE SEARCH
+    // =========================================================================
+    const filterPills = document.getElementById("filterPills");
+    const searchInput = document.getElementById("searchInput");
+    const searchClear = document.getElementById("searchClear");
+    const cards = [...document.querySelectorAll("#showcaseGrid .card")];
+    const emptyState = document.getElementById("emptyState");
+    const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+
+    let activeCategory = "all";
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      searchClear.classList.toggle("visible", query.length > 0);
+
+      let visibleCardCount = 0;
+
+      cards.forEach((card) => {
+        const matchesCat = activeCategory === "all" || card.dataset.category === activeCategory;
+        if (!matchesCat) {
+          card.classList.add("is-hidden");
+          return;
+        }
+
+        // Filter individual buttons/units inside card when searching
+        const items = card.querySelectorAll(".btn-row > .btn, .btn-row > [data-search-unit], .neu-stage > .btn, .dark-stage > .btn, .glass-stage > .btn");
+        let matchingItems = 0;
+
+        items.forEach((item) => {
+          const text = (
+            item.textContent + " " +
+            (item.dataset.name || "") + " " +
+            (item.getAttribute("aria-label") || "") + " " +
+            item.className
+          ).toLowerCase();
+
+          const show = !query || text.includes(query);
+          item.classList.toggle("is-search-hidden", !show);
+          if (show) matchingItems++;
+        });
+
+        // Also hide empty rows if searching
+        card.querySelectorAll(".btn-row").forEach((row) => {
+          const hasVisible = [...row.children].some((child) => !child.classList.contains("is-search-hidden"));
+          row.style.display = hasVisible ? "" : "none";
+        });
+
+        const showCard = matchingItems > 0 || !query;
+        card.classList.toggle("is-hidden", !showCard);
+        if (showCard) visibleCardCount++;
+      });
+
+      emptyState.classList.toggle("visible", visibleCardCount === 0);
+    }
+
+    filterPills.addEventListener("click", (e) => {
+      const pill = e.target.closest(".filter-pill");
+      if (!pill) return;
+      filterPills.querySelectorAll(".filter-pill").forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      activeCategory = pill.dataset.filter;
+      applyFilters();
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+    searchClear.addEventListener("click", () => {
+      searchInput.value = "";
+      applyFilters();
+      searchInput.focus();
+    });
+    resetFiltersBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      activeCategory = "all";
+      filterPills.querySelectorAll(".filter-pill").forEach((p) => {
+        p.classList.toggle("active", p.dataset.filter === "all");
+      });
+      applyFilters();
+    });
+
+    // =========================================================================
+    // 3. INTERACTIVE BUTTON BEHAVIORS
+    // =========================================================================
+    // Mouse-Tracking Spotlight
+    document.querySelectorAll("[data-spotlight]").forEach((btn) => {
+      btn.addEventListener("mousemove", (e) => {
+        const rect = btn.getBoundingClientRect();
+        btn.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+        btn.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      });
+    });
+
+    // Material Ripple
+    document.querySelectorAll("[data-ripple]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const wave = document.createElement("span");
+        wave.className = "ripple-wave";
+        wave.style.width = wave.style.height = `${size}px`;
+        wave.style.left = `${e.clientX - rect.left - size / 2}px`;
+        wave.style.top = `${e.clientY - rect.top - size / 2}px`;
+        btn.appendChild(wave);
+        wave.addEventListener("animationend", () => wave.remove());
+      });
+    });
+
+    // Segmented Group
+    document.querySelectorAll(".btn-group").forEach((group) => {
+      group.addEventListener("click", (e) => {
+        const clicked = e.target.closest(".btn");
+        if (!clicked) return;
+        group.querySelectorAll(".btn").forEach((b) => b.classList.remove("is-active"));
+        clicked.classList.add("is-active");
+      });
+    });
+
+    // Split Dropdown
+    const splitBtn = document.getElementById("splitBtn");
+    const splitMenu = document.getElementById("splitMenu");
+    splitBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = splitMenu.classList.toggle("open");
+      splitBtn.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", () => {
+      splitMenu.classList.remove("open");
+      splitBtn.setAttribute("aria-expanded", "false");
+    });
+
+    // Neumorphic Toggle
+    document.querySelectorAll("[data-neu-toggle]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const pressed = btn.classList.toggle("is-pressed");
+        btn.textContent = pressed ? "Inset Active" : "Click to Inset";
+      });
+    });
+
+    // Async Save
+    const asyncBtn = document.getElementById("asyncBtn");
+    asyncBtn.addEventListener("click", () => {
+      if (asyncBtn.disabled) return;
+      asyncBtn.disabled = true;
+      asyncBtn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Saving...';
+
+      setTimeout(() => {
+        asyncBtn.classList.replace("btn-primary", "btn-success");
+        asyncBtn.textContent = "Saved!";
+        setTimeout(() => {
+          asyncBtn.classList.replace("btn-success", "btn-primary");
+          asyncBtn.textContent = "Save Changes";
+          asyncBtn.disabled = false;
+        }, 1400);
+      }, 1400);
+    });
+
+    // Heart Like Toggle
+    const likeBtn = document.getElementById("likeBtn");
+    const likeCount = document.getElementById("likeCount");
+    likeBtn.addEventListener("click", () => {
+      const liked = likeBtn.classList.toggle("liked");
+      likeBtn.setAttribute("aria-pressed", String(liked));
+      likeCount.textContent = liked ? "25" : "24";
+    });
+
+    // =========================================================================
+    // 4. FLOATING LIVE INSPECTOR & ONE-CLICK COPY
+    // =========================================================================
+    const inspectorBar = document.getElementById("inspectorBar");
+    const inspectorName = document.getElementById("inspectorName");
+    const inspectorClass = document.getElementById("inspectorClass");
+    const copyHtmlBtn = document.getElementById("copyHtmlBtn");
+    const copyCssBtn = document.getElementById("copyCssBtn");
+    const inspectorClose = document.getElementById("inspectorClose");
+
+    let lastInspectedBtn = null;
+
+    document.getElementById("showcaseGrid").addEventListener("click", (e) => {
+      const btn = e.target.closest(".btn");
+      if (!btn || btn.disabled) return;
+
+      lastInspectedBtn = btn;
+      const classes = [...btn.classList].filter((c) => c.startsWith("btn"));
+      inspectorName.textContent = btn.dataset.name || btn.textContent.trim() || "Button";
+      inspectorClass.textContent = classes.map((c) => "." + c).join("");
+      inspectorBar.classList.add("visible");
+    });
+
+    inspectorClose.addEventListener("click", () => {
+      inspectorBar.classList.remove("visible");
+    });
+
+    async function copyToClipboard(text, triggerBtn, originalLabel) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          throw new Error("Fallback");
+        }
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      triggerBtn.textContent = "Copied!";
+      triggerBtn.classList.add("copied");
+      setTimeout(() => {
+        triggerBtn.textContent = originalLabel;
+        triggerBtn.classList.remove("copied");
+      }, 1300);
+    }
+
+    copyHtmlBtn.addEventListener("click", () => {
+      if (!lastInspectedBtn) return;
+      const clone = lastInspectedBtn.cloneNode(true);
+      clone.querySelectorAll(".ripple-wave").forEach((el) => el.remove());
+      clone.removeAttribute("data-name");
+      clone.removeAttribute("style");
+      copyToClipboard(clone.outerHTML, copyHtmlBtn, "Copy HTML");
+    });
+
+    copyCssBtn.addEventListener("click", () => {
+      if (!lastInspectedBtn) return;
+      const classes = [...lastInspectedBtn.classList].filter((c) => c.startsWith("btn"));
+      const rules = [];
+      try {
+        for (const sheet of document.styleSheets) {
+          for (const rule of sheet.cssRules) {
+            if (!rule.selectorText) continue;
+            const matches = classes.some((cls) =>
+              new RegExp("(?:^|[^\\w-])\\." + cls + "(?![\\w-])").test(rule.selectorText)
+            );
+            if (matches) rules.push(rule.cssText);
+          }
+        }
+      } catch {
+        rules.push(`/* View <style> tag for ${classes.map((c) => "." + c).join(" ")} */`);
+      }
+      copyToClipboard(rules.join("\n\n"), copyCssBtn, "Copy CSS");
+    });
+  </script>
+</body>
+</html>
